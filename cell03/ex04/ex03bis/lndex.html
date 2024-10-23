@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To do or not to do</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+
+<body>
+    <button id="new-btn"> New </button>
+    <div id="ft_list"></div> <!-- แสดงรายการ To Do อยู่ใน div นี้ -->
+
+    <script src="todo.js"></script>
+    <script>
+        $(document).ready(function () { // รอให้เอกสาร DOM โหลดเสร็จ
+            const $ft_list = $("#ft_list"); // ใช้ jQuery เพื่อเลือก div ที่จะแสดง
+            let toDos = JSON.parse(getCookie("TD") || "[]"); // อ่านคุกกี้ "TD" และแปลงเป็นอาร์เรย์ ถ้าไม่มีก็ใช้เป็นอาร์เรย์ว่าง
+            toDos.forEach(displayToDoItem); // แสดง To Do ที่มีอยู่ในคุกกี้
+
+            $("#new-btn").on("click", function () { // เพิ่ม event listener ให้กับปุ่ม New
+                const newToDo = prompt("Enter a new to do item:"); // แสดง prompt ให้ผู้ใช้กรอกข้อความใหม่
+                if (newToDo) {
+                    const toDoItem = { text: newToDo }; // สร้างอ็อบเจ็กต์ toDoItem
+                    toDos.unshift(toDoItem); // เพิ่ม toDoItem เข้าไปที่จุดเริ่มต้นของอาร์เรย์ toDos
+                    setCookie("TD", JSON.stringify(toDos), 365); // บันทึก toDos ลงคุกกี้
+                    displayToDoItem(toDoItem); // แสดง To Do ใหม่ที่เพิ่มเข้ามา
+                }
+            });
+
+            function displayToDoItem(toDoItem) { // ฟังก์ชันสำหรับแสดง To Do
+                const $div = $("<div>").text(toDoItem.text); // สร้าง div ใหม่และใส่ข้อความของ To Do
+                $div.on("click", function () { // เพิ่ม event listener ให้กับ div ที่สร้างขึ้น
+                    if (confirm("Are you sure you want to delete this item?")) { // ยืนยันการลบ
+                        toDos.splice(toDos.indexOf(toDoItem), 1); // ลบ toDoItem ออกจากอาร์เรย์ toDos
+                        setCookie("TD", JSON.stringify(toDos), 365); // อัพเดตคุกกี้
+                        $div.remove(); // ลบ div จาก DOM
+                    }
+                });
+                $ft_list.prepend($div); // เพิ่ม div ใหม่ที่สร้างขึ้นไปที่จุดเริ่มต้นของ #ft_list
+            }
+
+            function getCookie(name) { // ฟังก์ชันสำหรับอ่านค่าจากคุกกี้
+                const cookieValue = `; ${document.cookie}`; // แปลงคุกกี้ให้เป็นรูปแบบที่ง่ายต่อการจัดการ
+                const cookieParts = cookieValue.split(`; ${name}=`); // แยกคุกกี้ออกตามชื่อที่ต้องการ
+                if (cookieParts.length === 2) return cookieParts.pop().split(';').shift(); // คืนค่าของคุกกี้ที่ต้องการ
+                return ""; // ถ้าไม่พบคืนค่าเป็นสตริงว่าง
+            }
+
+            function setCookie(name, value, days) { // ฟังก์ชันสำหรับตั้งค่าคุกกี้
+                const expires = new Date(Date.now() + days * 864e5).toUTCString(); // กำหนดวันหมดอายุของคุกกี้
+                document.cookie = `${name}=${value}; expires=${expires}; path=/`; // ตั้งค่าคุกกี้
+            }
+        });
+    </script>
+</body>
+
+</html>

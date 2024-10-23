@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+    crossorigin="anonymous"></script>
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <!-- สร้าง div ที่ทำหน้าที่เป็นลูกบอล -->
+  <!-- เมื่อคลิก div จะเรียกฟังก์ชัน ballClick() -->
+  <!-- เมื่อเลื่อนเมาส์ออกจาก div จะเรียกฟังก์ชัน ballHover() -->
+
+  <div onclick="ballClick()" onmouseleave="ballHover()" id="ballballball" style="
+          width: 200px;
+          height: 200px;
+          background-color: rgb(255, 0, 0); /* สีแดง */
+          border-radius: 100%; /* ทำให้เป็นทรงกลม */
+        "></div>
+
+  <script>
+    // ฟังก์ชันที่เรียกเมื่อคลิก div
+    function ballClick() {
+      changeColor(); // เปลี่ยนสีลูกบอล
+      changeSize();  // เปลี่ยนขนาดลูกบอล
+    }
+
+    // ฟังก์ชันที่เรียกเมื่อเลื่อนเมาส์ออกจาก div
+    function ballHover() {
+      hoverSize();  // ลดขนาดลูกบอล
+      hoverColor(); // เปลี่ยนสีลูกบอล
+    }
+
+    // ฟังก์ชันลดขนาดลูกบอลเมื่อเมาส์ออกจาก div
+    function hoverSize() {
+      let ball = $("#ballballball"); // ดึง element div ที่มี id เป็น ballballball
+      let width = ball.height();     // ดึงความสูงของลูกบอล
+      if (width > 200) {             // ถ้าขนาดใหญ่กว่า 200px
+        ball.css({                   // ลดขนาดลูกบอลลงทีละ 5px
+          height: width - 5 + "px",
+          width: width - 5 + "px",
+        });
+      }
+    }
+
+    // ฟังก์ชันเปลี่ยนสีลูกบอลเมื่อเมาส์ออกจาก div
+    function hoverColor() {
+      let ball = $("#ballballball");            // ดึง element div
+      let color = ball.css("background-color"); // ดึงสีปัจจุบันของลูกบอล
+      if (color === "rgb(255, 0, 0)") {         // เปลี่ยนเป็นสีน้ำเงิน
+        ball.css("background-color", "rgb(0, 0, 255)");
+      }
+      if (color === "rgb(0, 255, 0)") {         // ถ้าสีปัจจุบันคือสีเขียว
+        ball.css("background-color", "rgb(255, 0, 0)"); // เปลี่ยนเป็นสีแดง
+      }
+      if (color === "rgb(0, 0, 255)") {
+        ball.css("background-color", "rgb(0, 255, 0)");
+      }
+    }
+
+    // ฟังก์ชันเพิ่มขนาดลูกบอลเมื่อคลิก div
+    function changeSize() {
+      let ball = $("#ballballball");        // ดึง element div
+      let width = ball.height();            // ดึงความสูงของลูกบอล
+      if (width < 420) {                    // ถ้าขนาดน้อยกว่า 420px
+        ball.css({                          // เพิ่มขนาดลูกบอลทีละ 10px
+          height: width + 10 + "px",
+          width: width + 10 + "px",
+        });
+      }
+      if (width >= 420) {                   // ถ้าขนาดใหญ่กว่า 420px
+        ball.css({                          // รีเซ็ตขนาดกลับไปเป็น 200px
+          height: "200px",
+          width: "200px",
+        });
+      }
+      if (width === 415) {                  // กรณีขนาดเป็น 415px
+        ball.css({                          // รีเซ็ตขนาดกลับไปเป็น 200px
+          height: "200px",
+          width: "200px",
+        });
+      }
+    }
+
+    function changeColor() {
+      let ball = $("#ballballball");                    // ดึง element div
+      let color = ball.css("background-color");         // ดึงสีปัจจุบันของลูกบอล
+      console.log(color);                               // แสดงสีปัจจุบันใน console
+      if (color === "rgb(255, 0, 0)") {                 // ถ้าสีปัจจุบันคือสีแดง
+        ball.css("background-color", "rgb(0, 255, 0)"); // เปลี่ยนเป็นสีเขียว
+      }
+      if (color === "rgb(0, 255, 0)") {                 // ถ้าสีปัจจุบันคือสีเขีย
+        ball.css("background-color", "rgb(0, 0, 255)"); // เปลี่ยนเป็นสีน้ำเงิน
+      }
+      if (color === "rgb(0, 0, 255)") {                 // ถ้าสีปัจจุบันคือสีน้ำเงิน
+        ball.css("background-color", "rgb(255, 0, 0)"); // เปลี่ยนเป็นสีแดง
+      }
+    }
+  </script>
+</body>
+
+</html>
