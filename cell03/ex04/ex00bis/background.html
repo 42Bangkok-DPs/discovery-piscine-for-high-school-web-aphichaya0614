@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="background.css"> <!-- Ensure this filename is correct -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Include jQuery -->
+</head>
+<body>
+    <button id="clickMe" class="clickhere">Click Me</button>
+    <script>
+        $(document).ready(function() {
+            $('#clickMe').click(function() {
+                const r = Math.floor(Math.random() * 256);
+                const g = Math.floor(Math.random() * 256);
+                const b = Math.floor(Math.random() * 256);
+                $('body').css('background-color', `rgb(${r},${g},${b})`);
+            });
+        });
+    </script>
+</body>
+</html>

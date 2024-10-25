@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basic Calculator</title>
+  <style>
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 300px 90px 300px 90px;
+    margin: 50px;
+}
+
+
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+  <div class="container">
+    <input type="text" id="leftOperand" placeholder="Left">
+    <select id="operator">
+      <option value="+">+</option>
+      <option value="-">-</option>
+      <option value="*">*</option>
+      <option value="/">/</option>
+      <option value="%">%</option>
+    </select>
+    <input type="text" id="rightOperand" placeholder="Right">
+    <button id="calculateBtn">Try me!</button>
+  </div>
+
+  <script>
+    $(document).ready(function() {
+      $('#calculateBtn').on('click', function() {
+        const leftOperandStr = $('#leftOperand').val().trim();
+        const rightOperandStr = $('#rightOperand').val().trim();
+        const operator = $('#operator').val();
+
+        // Combine numbers if there are spaces
+        const leftOperand = leftOperandStr.replace(/\s+/g, '') || '0'; // Default to '0' if empty
+        const rightOperand = rightOperandStr.replace(/\s+/g, '') || '0'; // Default to '0' if empty
+
+        // Validate that both inputs are non-negative integers
+        if (!/^\d+$/.test(leftOperand) || !/^\d+$/.test(rightOperand)) {
+          alert('Error :(');
+          console.error('Error :(');
+          return;
+        }
+
+        const leftNum = parseInt(leftOperand);
+        const rightNum = parseInt(rightOperand);
+
+        let result;
+        switch (operator) {
+          case '+':
+            result = leftNum + rightNum;
+            break;
+          case '-':
+            result = leftNum - rightNum;
+            break;
+          case '*':
+            result = leftNum * rightNum;
+            break;
+          case '/':
+            if (rightNum === 0) {
+              alert("It's over 9000!");
+              console.error("It's over 9000!");
+              return;
+            }
+            result = leftNum / rightNum;
+            break;
+          case '%':
+            if (rightNum === 0) {
+              alert("It's over 9000!");
+              console.error("It's over 9000!");
+              return;
+            }
+            result = leftNum % rightNum;
+            break;
+          default:
+            alert('Error :(');
+            console.error('Error :(');
+            return;
+        }
+
+        // Display the result in alert and console
+        alert(`Result: ${result}`);
+        console.log(`Result: ${result}`);
+      });
+
+      // Set a timer for 30 seconds to display an alert
+      setInterval(function() {
+        alert('Please, use me...');
+      }, 30000);
+    });
+  </script>
+
+</body>
+</html>
